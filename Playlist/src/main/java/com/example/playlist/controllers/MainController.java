@@ -24,16 +24,9 @@ public class MainController {
     private String url = "jdbc:postgresql://ec2-79-125-30-28.eu-west-1.compute.amazonaws.com:5432/d6s1qjvi1k7p8a";
     private String us = "imkufljuzcyyqx";
     private String pass = "b9e235c9f20decca80177dad2f1c69bda3fe2c104fc22ad67b4e6d48944ea3dc";
-    //Class.forName("org.postgresql.Driver");
 
     public MainController(PersonRepository repository) {
         this.repository = repository;
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
     @CrossOrigin
     @GetMapping("/full")
