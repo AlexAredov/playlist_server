@@ -15,6 +15,7 @@ public class Person {
     private String email;
     private String password;
     private String songs;
+    private String friends;
 
     public Person() {
     }
@@ -28,8 +29,7 @@ public class Person {
         this.songs = songs;
     }
 
-    public Person(int id, String name, String email, String password) {
-        this.id = id;
+    public Person(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -75,6 +75,14 @@ public class Person {
         this.songs = songs;
     }
 
+    public String getFriends() {
+        return friends;
+    }
+
+    public void setFriends(String email) {
+        this.email = friends;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,6 +104,7 @@ public class Person {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", songs='" + songs + '\'' +
+                ", friends='" + friends + '\'' +
                 '}';
     }
 }

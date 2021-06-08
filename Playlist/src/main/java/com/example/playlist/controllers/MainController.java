@@ -7,10 +7,10 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
-import org.apache.tomcat.util.json.JSONParser;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.ListView;
 import java.sql.*;
 import java.util.*;
 
@@ -25,136 +25,87 @@ public class MainController {
     private String us = "imkufljuzcyyqx";
     private String pass = "b9e235c9f20decca80177dad2f1c69bda3fe2c104fc22ad67b4e6d48944ea3dc";
 
+    @Autowired
     public MainController(PersonRepository repository) {
         this.repository = repository;
     }
     @CrossOrigin
     @GetMapping("/full")
     List all() {
-        List ll = null;
-        ResultSet resultSet = null;
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            resultSet = statement.executeQuery("SELECT * FROM users");
-            ll = new LinkedList();
-            while (resultSet.next()) {
-                String name = resultSet.getString("usname");
-                ll.add(name);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return ll;
+        return repository.findaLL();
     }
+
     @CrossOrigin
     @PostMapping("/add")
-    Person newEmployee(@RequestBody Person newPerson) {
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            int i = statement.executeUpdate("INSERT INTO users (USNAME, EMAIL, PASSWORD) VALUES ('" + newPerson.getName() + "','" + newPerson.getEmail() + "','" + newPerson.getPassword() + "')");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return newPerson;
+    Integer newEmployee(@RequestBody String sss) {
+        String name;
+        String email;
+        String password;
+        String[] subStr;
+        String delimeter = " ";
+        subStr = sss.split(delimeter);
+        name = subStr[0];
+        email = subStr[1];
+        password = subStr[2];
+        repository.add(name, email, password);
+        return 1;
     }
+
     @CrossOrigin
     @GetMapping("/check/{name}")
     Person check(@PathVariable String name) {
-        ResultSet resultSet = null;
+        String pass = "";
         Person p = null;
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            resultSet = statement.executeQuery("SELECT PASSWORD FROM users WHERE usname='" + name + "'");
-            resultSet.next();
-            String password = resultSet.getString("password");
-            p = new Person(name, password);
-            return p;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        pass = repository.check(name);
+        p = new Person(name, pass);
         return p;
     }
+
     @CrossOrigin
     @GetMapping("/songs/{name}")
     Person songs(@PathVariable String name) {
         String songs = "";
         Person p = null;
-        ResultSet resultSet = null;
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            resultSet = statement.executeQuery("SELECT SONGS FROM users WHERE usname='" + name + "'");
-            resultSet.next();
-            songs = resultSet.getString("songs");
-            p = new Person(songs);
-            return p;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        songs = repository.songs(name);
+        p = new Person(name, songs);
         return p;
     }
+
     @CrossOrigin
     @GetMapping("/friends/{name}")
     Person friends(@PathVariable String name) {
         String friends = "";
         Person p = null;
-        ResultSet resultSet = null;
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            resultSet = statement.executeQuery("SELECT FRIENDS FROM users WHERE usname='" + name + "'");
-            resultSet.next();
-            friends = resultSet.getString("friends");
-            p = new Person(friends);
-            return p;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        friends = repository.friends(name);
+        p = new Person(name, friends);
         return p;
     }
+
     @CrossOrigin
     @GetMapping("/songs")
     List songss() {
-        List ll = null;
-        ResultSet resultSet = null;
-        try(Connection conn = DriverManager.getConnection(url, us, pass);
-            Statement statement = conn.createStatement()){
-            resultSet = statement.executeQuery("SELECT * FROM songs");
-            ll = new LinkedList();
-            while (resultSet.next()) {
-                String song = resultSet.getString("song");
-                ll.add(song);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return ll;
+        return repository.songss();
     }
+
     @CrossOrigin
     @PostMapping("/addsongs/{name}")
-    void addSongs(@PathVariable String name, @RequestBody String s) {
-        try(Connection conn = DriverManager.getConnection(url, us, pass); Statement statement = conn.createStatement()){
-            int i = statement.executeUpdate("UPDATE users SET songs = '" + s +"' WHERE usname = '" + name +"'");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    Integer addSongs(@PathVariable String name, @RequestBody String s) {
+        repository.addS(name, s);
+        return 1;
     }
     @CrossOrigin
     @PostMapping("/adsng")
-    void adsng(@RequestBody String s) {
-        try(Connection conn = DriverManager.getConnection(url, us, pass); Statement statement = conn.createStatement()){
-            int i = statement.executeUpdate("INSERT INTO songs (song) VALUES ('" + s +"');");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    Integer adsng(@RequestBody String s) {
+        repository.addSong(s);
+        return 1;
     }
     @CrossOrigin
     @PostMapping("/fr/{name}")
-    void addFr(@PathVariable String name, @RequestBody String s) {
-        try(Connection conn = DriverManager.getConnection(url, us, pass); Statement statement = conn.createStatement()){
-            int i = statement.executeUpdate("UPDATE users SET friends = '" + s +"' WHERE usname = '" + name +"'");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    Integer addFr(@PathVariable String name, @RequestBody String s) {
+        repository.addFr(name, s);
+        return 1;
     }
+
     @CrossOrigin
     @GetMapping("/apple/{name}")
     List Apple(@PathVariable String name) {
@@ -192,6 +143,7 @@ public class MainController {
         }
         return ll;
     }
+
     @CrossOrigin
     @GetMapping("/spotify/{name}")
     List Spotify(@PathVariable String name) {
