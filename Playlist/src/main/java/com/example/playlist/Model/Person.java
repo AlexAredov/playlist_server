@@ -16,6 +16,7 @@ public class Person {
     private String password;
     private String songs;
     private String friends;
+    private String serves;
 
     public Person() {
     }
@@ -81,6 +82,14 @@ public class Person {
 
     public void setFriends(String email) {
         this.email = friends;
+    }
+
+    public String getServes() {
+        return serves;
+    }
+
+    public void setServes(String name) {
+        this.serves = serves;
     }
 
     @Override

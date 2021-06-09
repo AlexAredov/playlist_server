@@ -92,16 +92,25 @@ public class MainController {
         repository.addS(name, s);
         return 1;
     }
+
     @CrossOrigin
     @PostMapping("/adsng")
     Integer adsng(@RequestBody String s) {
         repository.addSong(s);
         return 1;
     }
+
     @CrossOrigin
     @PostMapping("/fr/{name}")
     Integer addFr(@PathVariable String name, @RequestBody String s) {
         repository.addFr(name, s);
+        return 1;
+    }
+
+    @CrossOrigin
+    @PostMapping("/serves/{name}/{serves}")
+    Integer serves(@PathVariable String name, @PathVariable String serves) {
+        repository.serves(name, serves);
         return 1;
     }
 
