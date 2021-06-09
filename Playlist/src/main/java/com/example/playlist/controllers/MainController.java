@@ -21,9 +21,6 @@ public class MainController {
 
 
     private final PersonRepository repository;
-    private String url = "jdbc:postgresql://ec2-79-125-30-28.eu-west-1.compute.amazonaws.com:5432/d6s1qjvi1k7p8a";
-    private String us = "imkufljuzcyyqx";
-    private String pass = "b9e235c9f20decca80177dad2f1c69bda3fe2c104fc22ad67b4e6d48944ea3dc";
 
     @Autowired
     public MainController(PersonRepository repository) {
@@ -38,15 +35,17 @@ public class MainController {
     @CrossOrigin
     @PostMapping("/add")
     Integer newEmployee(@RequestBody String sss) {
-        String name;
-        String email;
-        String password;
+        String name = "";
+        String email = "";
+        String password = "";
         String[] subStr;
         String delimeter = " ";
         subStr = sss.split(delimeter);
         name = subStr[0];
         email = subStr[1];
         password = subStr[2];
+        name = name.replace("\"", "");
+        password = password.replace("\"", "");
         repository.add(name, email, password);
         return 1;
     }
