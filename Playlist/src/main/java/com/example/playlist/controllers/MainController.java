@@ -115,6 +115,16 @@ public class MainController {
     }
 
     @CrossOrigin
+    @GetMapping("/service/{name}")
+    Person serv(@PathVariable String name) {
+        String service = "";
+        Person p = null;
+        service =  repository.service(name);
+        p = new Person(name, service);
+        return p;
+    }
+
+    @CrossOrigin
     @GetMapping("/apple/{name}")
     List Apple(@PathVariable String name) {
         String a = "";
