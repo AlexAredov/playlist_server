@@ -53,4 +53,12 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
 
     @Query(value = "SELECT serves FROM person WHERE name=:name", nativeQuery = true)
     String service(@Param("name") String name);
+
+    @Modifying
+    @Query(value = "UPDATE song SET number = :number WHERE name = :name", nativeQuery = true)
+    @Transactional
+    void top(@Param("name") String name, @Param("number") String number);
+
+    @Query(value = "SELECT number FROM song WHERE name=:name", nativeQuery = true)
+    String top1(@Param("name") String name);
 }

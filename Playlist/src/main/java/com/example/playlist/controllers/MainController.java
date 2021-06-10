@@ -125,6 +125,23 @@ public class MainController {
     }
 
     @CrossOrigin
+    @PostMapping("/top/{name}/{number}")
+    Integer top(@PathVariable String name, @PathVariable String number) {
+        repository.top(name, number);
+        return 1;
+    }
+
+    @CrossOrigin
+    @GetMapping("/top/{name}")
+    Person top1(@PathVariable String name) {
+        String number = "";
+        Person p = null;
+        number =  repository.top1(name);
+        p = new Person(name, number);
+        return p;
+    }
+
+    @CrossOrigin
     @GetMapping("/apple/{name}")
     List Apple(@PathVariable String name) {
         String a = "";
