@@ -142,6 +142,18 @@ public class MainController {
     }
 
     @CrossOrigin
+    @GetMapping("/topsongs")
+    List topsongs() {
+        ArrayList<String> a = new ArrayList<String>();
+        a.add(repository.topsongs().get(0));
+        a.add(repository.topsongs().get(1));
+        a.add(repository.topsongs().get(2));
+        a.add(repository.topsongs().get(3));
+        a.add(repository.topsongs().get(4));
+        return a;
+    }
+
+    @CrossOrigin
     @GetMapping("/apple/{name}")
     List Apple(@PathVariable String name) {
         String a = "";

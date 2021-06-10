@@ -61,4 +61,7 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
 
     @Query(value = "SELECT number FROM song WHERE name=:name", nativeQuery = true)
     String top1(@Param("name") String name);
+
+    @Query(value = "SELECT name FROM song ORDER BY number DESC", nativeQuery = true)
+    List<String> topsongs();
 }
