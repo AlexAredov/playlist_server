@@ -125,7 +125,7 @@ public class MainController {
     }
 
     @CrossOrigin
-    @PostMapping("/top/{name}/{number}")
+    @PostMapping("/top1/{name}/{number}")
     Integer top(@PathVariable String name, @PathVariable String number) {
         repository.top(name, number);
         return 1;
