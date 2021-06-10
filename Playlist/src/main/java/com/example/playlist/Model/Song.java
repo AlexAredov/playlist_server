@@ -11,7 +11,7 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    private long number;
+    private String number;
 
     public Song(String name){
         this.name = name;
@@ -37,9 +37,9 @@ public class Song {
         this.name = name;
     }
 
-    public long getNumber() {
-        return id;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNumber(long number) { this.number = number; }
+    public void setNumber(String number) { this.number = number; }
 }
