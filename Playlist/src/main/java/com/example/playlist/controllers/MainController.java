@@ -341,4 +341,21 @@ public class MainController {
         return ll;
     }
 
+    @CrossOrigin
+    @PostMapping("/mipost/{name}/{mi}")
+    Integer mi(@PathVariable String name, @PathVariable String mi) {
+        repository.mipost(name, mi);
+        return 1;
+    }
+
+    @CrossOrigin
+    @GetMapping("/miget/{name}")
+    Person mi(@PathVariable String name) {
+        String mi = "";
+        Person p = null;
+        mi =  repository.miget(name);
+        p = new Person(name, mi);
+        return p;
+    }
+
 }

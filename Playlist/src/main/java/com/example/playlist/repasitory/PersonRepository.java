@@ -64,4 +64,12 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
 
     @Query(value = "SELECT name FROM song ORDER BY number DESC", nativeQuery = true)
     List<String> topsongs();
+
+    @Modifying
+    @Query(value = "UPDATE person SET mi = :number WHERE name = :name", nativeQuery = true)
+    @Transactional
+    void mipost(@Param("name") String name, @Param("number") String number);
+
+    @Query(value = "SELECT mi FROM person WHERE name=:name", nativeQuery = true)
+    String miget(@Param("name") String name);
 }
