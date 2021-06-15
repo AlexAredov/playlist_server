@@ -37,7 +37,7 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
     void addS(@Param("name") String name, @Param("song") String song);
 
     @Modifying
-    @Query(value = "INSERT INTO song (name) VALUES (:song)", nativeQuery = true)
+    @Query(value = "INSERT INTO song (name, number) VALUES (:song, 0)", nativeQuery = true)
     @Transactional
     void addSong(@Param("song") String song);
 
